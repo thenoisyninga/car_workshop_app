@@ -3,9 +3,16 @@ import 'package:car_workshop_app/pages/search_customer.dart';
 import 'package:car_workshop_app/pages/search_vehicle.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
+import '../data_ops/user_management.dart';
+
+class Home extends StatefulWidget {
   const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,18 +45,26 @@ class Home extends StatelessWidget {
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
+                children: [
+                  const Icon(
                     Icons.person,
                     color: Colors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 6,
                   ),
                   Text(
-                    "Logged in as sarim_ahmed",
-                    style: TextStyle(
+                    "Logged in as ${getSessionUsername()}",
+                    style: const TextStyle(
                         color: Colors.white, fontWeight: FontWeight.w300),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                  ),
+                  IconButton(
+                    color: Colors.white,
+                    onPressed: logout,
+                    icon: const Icon(Icons.logout),
                   ),
                 ],
               ),
@@ -66,7 +81,7 @@ class Home extends StatelessWidget {
               onPressed: () {},
               child: Container(
                   alignment: Alignment.center,
-                  height: 100,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   width: MediaQuery.of(context).size.width * 0.3 < 600
                       ? 600
                       : MediaQuery.of(context).size.width * 0.3,
@@ -92,7 +107,7 @@ class Home extends StatelessWidget {
               },
               child: Container(
                   alignment: Alignment.center,
-                  height: 100,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   width: MediaQuery.of(context).size.width * 0.3 < 600
                       ? 600
                       : MediaQuery.of(context).size.width * 0.3,
@@ -118,7 +133,7 @@ class Home extends StatelessWidget {
               },
               child: Container(
                   alignment: Alignment.center,
-                  height: 100,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   width: MediaQuery.of(context).size.width * 0.3 < 600
                       ? 600
                       : MediaQuery.of(context).size.width * 0.3,
@@ -137,7 +152,7 @@ class Home extends StatelessWidget {
               onPressed: () {},
               child: Container(
                   alignment: Alignment.center,
-                  height: 100,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   width: MediaQuery.of(context).size.width * 0.3 < 600
                       ? 600
                       : MediaQuery.of(context).size.width * 0.3,
@@ -146,9 +161,34 @@ class Home extends StatelessWidget {
                     style: TextStyle(fontSize: 20),
                   )),
             ),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void logout() {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Are you sure you want to log out?"),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      removeUserCredentials();
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/login', (Route<dynamic> route) => false);
+                    },
+                    child: const Text("Yes")),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("No")),
+              ],
+            ));
   }
 }
