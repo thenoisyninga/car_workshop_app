@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../data_ops/user_management.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -13,6 +16,8 @@ class _LoginState extends State<Login> {
   bool hidePassword = false;
   String? passwordError;
   String? usernameError;
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +58,12 @@ class _LoginState extends State<Login> {
                   ? 400
                   : MediaQuery.of(context).size.width * 0.50,
               child: TextField(
-                style: const TextStyle(color: Colors.white),
+                  controller: usernameController,
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     errorText: usernameError,
                     label: const Text("Username"),
-                  )
-              ),
+                  )),
             ),
 
             const SizedBox(
@@ -71,6 +76,7 @@ class _LoginState extends State<Login> {
                   ? 400
                   : MediaQuery.of(context).size.width * 0.50,
               child: TextField(
+                controller: passwordController,
                 obscureText: hidePassword,
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
@@ -93,9 +99,104 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.025,
+            ),
+
+            // Login Button
+            GestureDetector(
+              onTap: login,
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Theme.of(context).primaryColor,
+                ),
+                height: 50,
+                width: MediaQuery.of(context).size.width * 0.50 > 400
+                    ? 400
+                    : MediaQuery.of(context).size.width * 0.50,
+                child: const Text(
+                  "Login",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
     );
+  }
+
+  Future<void> login() async {
+    String username = usernameController.text;
+    String password = passwordController.text;
+
+    // TODO: Encrypt Password
+    String hash = password;
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const AlertDialog(
+              content: SizedBox(
+                  height: 50, width: 50, child: CircularProgressIndicator()),
+            ));
+    print("username: $username");
+    print("password: $password");
+    String result = await verifyCredentials(username, hash);
+
+    if (result == "SUCCESS") {
+      print("login success");
+      Navigator.pop(context);
+    } else if (result == "ERROR") {
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: const Text("Unknown Error Occoured"),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Okay"),
+            )
+          ],
+        ),
+      );
+    } else if (result == "FAILED") {
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: const Text("Incorrect username or password"),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Okay"),
+            )
+          ],
+        ),
+      );
+    } else {
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: Text("Error Occoured, Code $result"),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Okay"),
+            )
+          ],
+        ),
+      );
+    }
   }
 }

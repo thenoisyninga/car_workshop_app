@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/home',
+      initialRoute: '/login',
       routes: {
         '/login': ((context) => const Login()),
         '/home': ((context) => const Home()),
