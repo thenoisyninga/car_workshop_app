@@ -2,12 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/job_tile.dart';
+import '../widgets/part_service_tile.dart';
 
 class JobInfo extends StatefulWidget {
-  const JobInfo({
-    super.key,
-    required this.jobID
-  });
+  const JobInfo({super.key, required this.jobID});
 
   final String jobID;
 
@@ -16,14 +14,14 @@ class JobInfo extends StatefulWidget {
 }
 
 class _JobInfoState extends State<JobInfo> {
-
-  final String customerComplaint = "csileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjner";
-  final String workDetails = "csileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjner";
+  final String customerComplaint =
+      "csileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjnercsileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjnercsileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjnercsileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjnercsileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjnercsileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjnercsileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjnercsileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjnercsileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjnercsileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjner";
+  final String workDetails =
+      "csileceubciernhebrfberfb erhfvwevfwbefhverfweruifvwyegceowercniorncowrncwnrcuwrnivenvnervneronhruifneurnvuioereoinioernioernvioenvioernvioenriovnkdnsjner";
   final double cost = 0;
   final double price = 1000;
   final double paid = 1000;
-  final String vehicleNumber= "AGD423";
-
+  final String vehicleNumber = "AGD423";
 
   @override
   Widget build(BuildContext context) {
@@ -31,80 +29,300 @@ class _JobInfoState extends State<JobInfo> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text("Vehicle Info"),
+        title: Text("Job: ${widget.jobID}"),
         centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
-            ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     AutoSizeText(
-                      "$model, $make",
-                      style: const TextStyle(
+                      "AGD423",
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 70,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 17
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      made ?? "",
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
+                    AutoSizeText(
+                      "Santro",
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 35,
+                      ),
+                    ),
+                    AutoSizeText(
+                      "Hyundai, 2006",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
                       ),
                     ),
                   ],
                 ),
-                
-              ],
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-                child: Container(
-              // color: Colors.black,
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Expanded(
-                      child: Text(
-                        "Jobs on this vehicle",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: const [
+                    AutoSizeText(
+                      "Customer 1",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
                       ),
                     ),
-                  ),
-                  Padding(
+                    AutoSizeText(
+                      "Sarim Ahmed",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    AutoSizeText(
+                      "0300-2145234",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // Customer Complaint
+                Container(
+                  color: Colors.grey[800],
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.45,
-                      child: ListView(
-                        children: const [
-                          JobTile(jobID: "1"),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Customer Complaint",
+                          style: TextStyle(
+                            color: Colors.grey[200],
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.18,
+                          child: SingleChildScrollView(
+                            child: Text(
+                              customerComplaint,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+
+                // Work Details
+                Container(
+                  color: Colors.grey[800],
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Work Details",
+                          style: TextStyle(
+                            color: Colors.grey[200],
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.18,
+                          child: SingleChildScrollView(
+                            child: Text(
+                              workDetails,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              "Parts/Services Arranged",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: ListView(
+                  children: [
+                    PartServiceTile(
+                      name: "Part Name",
+                      type: "Type",
+                      cost: 100,
+                      supplier: "Ahmed",
+                      jobID: "1",
+                      timeAdded: DateTime(2023),
+                    ),
+                    PartServiceTile(
+                      name: "Part Name",
+                      type: "Part",
+                      cost: 100,
+                      supplier: null,
+                      jobID: "1",
+                      timeAdded: DateTime(2023),
+                    ),
+                    PartServiceTile(
+                      name: "Part Name",
+                      type: "Part",
+                      cost: 100,
+                      supplier: "Ahmed",
+                      jobID: "1",
+                      timeAdded: DateTime(2023),
+                    ),
+                    PartServiceTile(
+                      name: "Part Name",
+                      type: "Part",
+                      cost: 100,
+                      supplier: "Ahmed",
+                      jobID: "1",
+                      timeAdded: DateTime(2023),
+                    ),
+                    PartServiceTile(
+                      name: "Part Name",
+                      type: "Part",
+                      cost: 100,
+                      supplier: "Ahmed",
+                      jobID: "1",
+                      timeAdded: DateTime(2023),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // Add Part button
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: const Text("Add Part/Service"),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.grey[800],
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              // Cost
+                              const AutoSizeText(
+                                "Cost",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 18),
+                              ),
+                              AutoSizeText(
+                                "Rs. $cost",
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ],
+                          ),
+
+                          // Price
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const AutoSizeText(
+                                "Price",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 18),
+                              ),
+                              AutoSizeText(
+                                "Rs. $price",
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const AutoSizeText(
+                                "Paid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 18),
+                              ),
+                              AutoSizeText(
+                                "Rs. $paid",
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
                   )
                 ],
               ),
-            ))
+            )
           ],
         ),
       ),

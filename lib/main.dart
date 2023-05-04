@@ -1,6 +1,7 @@
 import 'package:car_workshop_app/constants.dart';
 import 'package:car_workshop_app/pages/customer_display.dart';
 import 'package:car_workshop_app/pages/home.dart';
+import 'package:car_workshop_app/pages/job_display.dart';
 import 'package:car_workshop_app/pages/login.dart';
 import 'package:car_workshop_app/pages/search_customer.dart';
 import 'package:car_workshop_app/pages/search_vehicle.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/search_customer',
+      initialRoute: '/home',
       routes: {
         '/login': ((context) => const Login()),
         '/home': ((context) => const Home()),
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         '/search_vehicle': ((context) => const SearchVehicle()),
         '/customer_info': ((context) => const CustomerInfo(customerID: '', firstName: '', lastName: '', contact1: '')),
         '/vehicle_info': (context) => const VehicleInfo(vehicleNumber: "",),
+        '/job_info': (context) => const JobInfo(jobID: ""),
 
       },
     );

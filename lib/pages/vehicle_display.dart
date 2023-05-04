@@ -17,7 +17,6 @@ class VehicleInfo extends StatefulWidget {
 }
 
 class _VehicleInfoState extends State<VehicleInfo> {
-
   final String customerID = "1";
   final String make = "Hyundai";
   final String model = "Santro";
@@ -46,18 +45,24 @@ class _VehicleInfoState extends State<VehicleInfo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      "$model, $make",
+                      widget.vehicleNumber,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    AutoSizeText(
+                      model,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 70,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      made ?? "",
+                    AutoSizeText(
+                      "$make, $made",
                       textAlign: TextAlign.left,
                       style: const TextStyle(
                         color: Colors.white,
@@ -67,7 +72,37 @@ class _VehicleInfoState extends State<VehicleInfo> {
                     ),
                   ],
                 ),
-                
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: const [
+                    AutoSizeText(
+                      "Customer 1",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    AutoSizeText(
+                      "Sarim Ahmed",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    AutoSizeText(
+                      "0300-2147987",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
             const SizedBox(height: 16),

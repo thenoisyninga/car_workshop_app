@@ -1,4 +1,6 @@
 import 'package:car_workshop_app/constants.dart';
+import 'package:car_workshop_app/pages/search_customer.dart';
+import 'package:car_workshop_app/pages/search_vehicle.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -27,7 +29,9 @@ class Home extends StatelessWidget {
                 color: Colors.grey[200],
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             GestureDetector(
               onTap: () {
                 print("working");
@@ -35,11 +39,17 @@ class Home extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
-                  Icon(Icons.person, color: Colors.white,),
-                  SizedBox(width: 6,),
+                  Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
                   Text(
                     "Logged in as sarim_ahmed",
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w300),
                   ),
                 ],
               ),
@@ -72,7 +82,14 @@ class Home extends StatelessWidget {
 
             // Search Customer Button
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchCustomer(),
+                  ),
+                );
+              },
               child: Container(
                   alignment: Alignment.center,
                   height: 100,
@@ -91,7 +108,14 @@ class Home extends StatelessWidget {
 
             // Search Vehicle Button
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchVehicle(),
+                  ),
+                );
+              },
               child: Container(
                   alignment: Alignment.center,
                   height: 100,

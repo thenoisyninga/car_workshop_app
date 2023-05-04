@@ -1,4 +1,5 @@
 import 'package:car_workshop_app/pages/customer_display.dart';
+import 'package:car_workshop_app/pages/job_display.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/vehicle_display.dart';
@@ -17,37 +18,49 @@ class JobTile extends StatelessWidget {
     const String vehicleNumber = "AGD-423";
     return ListTile(
       tileColor: Theme.of(context).primaryColor,
-      title: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const VehicleInfo(
-                vehicleNumber: vehicleNumber,
-              ),
+      title: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const VehicleInfo(
+                    vehicleNumber: vehicleNumber,
+                  ),
+                ),
+              );
+            },
+            child: const Text(
+              "Vehicle: $vehicleNumber",
             ),
-          );
-        },
-        child: const Text(
-          "Vehicle: $vehicleNumber",
-        ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const VehicleInfo(
+                    vehicleNumber: vehicleNumber,
+                  ),
+                ),
+              );
+            },
+            child: const SizedBox(),
+          )
+        ],
       ),
       subtitle: Text("Job ID: $jobID"),
       trailing: Text(dateTimeAdded.toString().substring(0, 10)),
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => CustomerInfo(
-        //       customerID: customerID,
-        //       firstName: firstName,
-        //       lastName: lastName,
-        //       contact1: contact1,
-        //       contact2: contact2,
-        //       contact3: contact3,
-        //     ),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => JobInfo(
+              jobID: jobID,
+            ),
+          ),
+        );
       },
     );
   }
