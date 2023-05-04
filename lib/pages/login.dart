@@ -13,7 +13,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool hidePassword = false;
+  bool hidePassword = true;
   String? passwordError;
   String? usernameError;
   TextEditingController usernameController = TextEditingController();
@@ -135,23 +135,36 @@ class _LoginState extends State<Login> {
     String username = usernameController.text;
     String password = passwordController.text;
 
-    // TODO: Encrypt Password
-    String hash = password;
+    String hash = await hashPass(password);
 
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const AlertDialog(
-              content: SizedBox(
-                  height: 50, width: 50, child: CircularProgressIndicator()),
-            ));
-    print("username: $username");
-    print("password: $password");
+      context: context,
+      barrierDismissible: false,
+      builder: ((context) => AlertDialog(
+            content: SizedBox(
+              height: 100,
+              child: Center(
+                  child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 20),
+                  Text(
+                    "Processing..",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              )),
+            ),
+          )),
+    );
     String result = await verifyCredentials(username, hash);
 
     if (result == "SUCCESS") {
-      print("login success");
+      storeUserCredentials(username, hash);
       Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pushNamed(context, "/home");
     } else if (result == "ERROR") {
       Navigator.pop(context);
       showDialog(
