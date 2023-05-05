@@ -1,4 +1,5 @@
 import 'package:car_workshop_app/constants.dart';
+import 'package:car_workshop_app/data_ops/fetching_data.dart';
 import 'package:car_workshop_app/pages/search_customer.dart';
 import 'package:car_workshop_app/pages/search_vehicle.dart';
 import 'package:flutter/material.dart';
@@ -82,8 +83,8 @@ class _HomeState extends State<Home> {
               child: Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.1,
-                  width: MediaQuery.of(context).size.width * 0.3 < 600
-                      ? 600
+                  width: MediaQuery.of(context).size.width * 0.3 < 400
+                      ? 400
                       : MediaQuery.of(context).size.width * 0.3,
                   child: const Text(
                     "Add Customer",
@@ -91,8 +92,8 @@ class _HomeState extends State<Home> {
                   )),
             ),
 
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
             ),
 
             // Search Customer Button
@@ -108,8 +109,8 @@ class _HomeState extends State<Home> {
               child: Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.1,
-                  width: MediaQuery.of(context).size.width * 0.3 < 600
-                      ? 600
+                  width: MediaQuery.of(context).size.width * 0.3 < 400
+                      ? 400
                       : MediaQuery.of(context).size.width * 0.3,
                   child: const Text(
                     "Search Customer",
@@ -117,8 +118,8 @@ class _HomeState extends State<Home> {
                   )),
             ),
 
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
             ),
 
             // Search Vehicle Button
@@ -134,8 +135,8 @@ class _HomeState extends State<Home> {
               child: Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.1,
-                  width: MediaQuery.of(context).size.width * 0.3 < 600
-                      ? 600
+                  width: MediaQuery.of(context).size.width * 0.3 < 400
+                      ? 400
                       : MediaQuery.of(context).size.width * 0.3,
                   child: const Text(
                     "Search Vehicle",
@@ -143,18 +144,20 @@ class _HomeState extends State<Home> {
                   )),
             ),
 
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
             ),
 
             // Recent Jobs Button
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                getJob("1");
+              },
               child: Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.1,
-                  width: MediaQuery.of(context).size.width * 0.3 < 600
-                      ? 600
+                  width: MediaQuery.of(context).size.width * 0.3 < 400
+                      ? 400
                       : MediaQuery.of(context).size.width * 0.3,
                   child: const Text(
                     "Recent Jobs",

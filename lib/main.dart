@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
         '/search_customer': ((context) => const SearchCustomer()),
         '/search_vehicle': ((context) => const SearchVehicle()),
         '/customer_info': ((context) => const CustomerInfo(
-            customerID: '', firstName: '', lastName: '', contact1: '')),
+            customerID: '',)),
         '/vehicle_info': (context) => const VehicleInfo(
               vehicleNumber: "",
             ),

@@ -7,7 +7,7 @@ class Job {
   double paid;
   String vehicleNumber;
   DateTime dateTimeAdded;
-  DateTime dateTimeFinished;
+  DateTime? dateTimeFinished;
   double kilometers;
 
   Job(

@@ -34,11 +34,6 @@ class CustomerTile extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => CustomerInfo(
               customerID: customerID,
-              firstName: firstName,
-              lastName: lastName,
-              contact1: contact1,
-              contact2: contact2,
-              contact3: contact3,
             ),
           ),
         );
