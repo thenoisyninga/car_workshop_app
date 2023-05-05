@@ -1,9 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:car_workshop_app/widgets/vehicle_tile.dart';
+import 'package:car_workshop_app/widgets/tiles/vehicle_tile.dart';
 import 'package:flutter/material.dart';
 
 import '../data_ops/fetching_data.dart';
 import '../models/customer.dart';
+import '../models/vehicle.dart';
 
 class CustomerInfo extends StatefulWidget {
   const CustomerInfo({
@@ -174,31 +175,31 @@ class _CustomerInfoState extends State<CustomerInfo> {
                             padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
                               height: MediaQuery.of(context).size.height * 0.45,
-                              child: ListView(
-                                children: const [
-                                  VehicleTile(
-                                    vehicleNumber: "AGD423",
-                                    customerID: "1",
-                                    make: "Hyundai",
-                                    made: "2006",
-                                    model: "Santro",
-                                  ),
-                                  VehicleTile(
-                                    vehicleNumber: "AGD423",
-                                    customerID: "1",
-                                    make: "Hyundai",
-                                    made: "2006",
-                                    model: "Santro",
-                                  ),
-                                  VehicleTile(
-                                    vehicleNumber: "AGD423",
-                                    customerID: "1",
-                                    make: "Hyundai",
-                                    made: "2006",
-                                    model: "Santro",
-                                  ),
-                                ],
-                              ),
+                              child: FutureBuilder(
+                                  future:
+                                      getVehiclesForCustomer(widget.customerID),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      List<Vehicle> vehicles = snapshot.data!;
+                                      return ListView.builder(
+                                        itemCount: vehicles.length,
+                                        itemBuilder: (context, index) {
+                                          return VehicleTile(
+                                            vehicleNumber:
+                                                vehicles[index].vehicleNumber,
+                                            customerID:
+                                                vehicles[index].customerID,
+                                            make: vehicles[index].make,
+                                            made: vehicles[index].made,
+                                            model: vehicles[index].model,
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                  }),
                             ),
                           )
                         ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/customer_tile.dart';
+import '../data_ops/searching_data.dart';
+import '../models/customer.dart';
+import '../widgets/tiles/customer_tile.dart';
 
 class SearchCustomer extends StatefulWidget {
   const SearchCustomer({super.key});
@@ -10,6 +12,13 @@ class SearchCustomer extends StatefulWidget {
 }
 
 class _SearchCustomerState extends State<SearchCustomer> {
+  TextEditingController customerIDController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController contactNum1Controller = TextEditingController();
+  TextEditingController contactNum2Controller = TextEditingController();
+  TextEditingController contactNum3Controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,44 +47,59 @@ class _SearchCustomerState extends State<SearchCustomer> {
                   crossAxisCount: 3,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 0,
-                  children: const [
+                  children: [
                     SizedBox(
                       height: 10,
                       child: TextField(
-                        decoration: InputDecoration(label: Text("Customer ID")),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                      child: TextField(
-                        decoration: InputDecoration(label: Text("First Name")),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                      child: TextField(
-                        decoration: InputDecoration(label: Text("Last Name")),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                      child: TextField(
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: customerIDController,
                         decoration:
-                            InputDecoration(label: Text("Phone Number 1")),
+                            const InputDecoration(label: Text("Customer ID")),
                       ),
                     ),
                     SizedBox(
                       height: 10,
                       child: TextField(
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: firstNameController,
                         decoration:
-                            InputDecoration(label: Text("Phone Number 2")),
+                            const InputDecoration(label: Text("First Name")),
                       ),
                     ),
                     SizedBox(
                       height: 10,
                       child: TextField(
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: lastNameController,
                         decoration:
-                            InputDecoration(label: Text("Phone Number 3")),
+                            const InputDecoration(label: Text("Last Name")),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                      child: TextField(
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: contactNum1Controller,
+                        decoration: const InputDecoration(
+                            label: Text("Phone Number 1")),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                      child: TextField(
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: contactNum2Controller,
+                        decoration: const InputDecoration(
+                            label: Text("Phone Number 2")),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                      child: TextField(
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: contactNum3Controller,
+                        decoration: const InputDecoration(
+                            label: Text("Phone Number 3")),
                       ),
                     ),
                   ],
@@ -85,7 +109,9 @@ class _SearchCustomerState extends State<SearchCustomer> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {});
+                  },
                   child: Container(
                     alignment: Alignment.center,
                     height: 70,
@@ -102,18 +128,38 @@ class _SearchCustomerState extends State<SearchCustomer> {
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.65,
-                child: ListView(
-                  children:const [
-                    CustomerTile(
-                      customerID: "1",
-                      firstName: "Sarim",
-                      lastName: "Ahmed",
-                      contact1: "0300-2214731",
-                      contact2: "0300-2214732",
-                      contact3: "0300-2214733",
-                    )
-                  ],
-                ),
+                child: FutureBuilder(
+                    future: searchCustomer(
+                      customerIDController.text,
+                      firstNameController.text,
+                      lastNameController.text,
+                      contactNum1Controller.text,
+                      contactNum2Controller.text,
+                      contactNum3Controller.text,
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<Customer> searchResults =
+                            snapshot.data! as List<Customer>;
+                        return ListView.builder(
+                            itemCount: searchResults.length,
+                            itemBuilder: ((context, index) {
+                              
+                              return CustomerTile(
+                                customerID: searchResults[index].customerID,
+                                firstName: searchResults[index].firstName,
+                                lastName: searchResults[index].lastName,
+                                contact1: searchResults[index].contact1,
+                                contact2: searchResults[index].contact2,
+                                contact3: searchResults[index].contact3,
+                              );
+                            }));
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }),
               ),
             )
           ],

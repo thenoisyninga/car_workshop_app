@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/customer_tile.dart';
-import '../widgets/vehicle_tile.dart';
+import '../data_ops/searching_data.dart';
+import '../models/vehicle.dart';
+import '../widgets/tiles/customer_tile.dart';
+import '../widgets/tiles/vehicle_tile.dart';
 
 class SearchVehicle extends StatefulWidget {
   const SearchVehicle({super.key});
@@ -11,6 +13,11 @@ class SearchVehicle extends StatefulWidget {
 }
 
 class _SearchVehicleState extends State<SearchVehicle> {
+  TextEditingController vehicleNumberController = TextEditingController();
+  TextEditingController makeController = TextEditingController();
+  TextEditingController madeController = TextEditingController();
+  TextEditingController modelController = TextEditingController();
+  TextEditingController customerIDController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,36 +46,47 @@ class _SearchVehicleState extends State<SearchVehicle> {
                   crossAxisCount: 3,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 0,
-                  children: const [
+                  children: [
                     SizedBox(
                       height: 10,
                       child: TextField(
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: vehicleNumberController,
+                        decoration: const InputDecoration(
+                            label: Text("Vehicle Number")),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                      child: TextField(
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: customerIDController,
                         decoration:
-                            InputDecoration(label: Text("Vehicle Number")),
+                            const InputDecoration(label: Text("CustomerID")),
                       ),
                     ),
                     SizedBox(
                       height: 10,
                       child: TextField(
-                        decoration: InputDecoration(label: Text("CustomerID")),
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: makeController,
+                        decoration: const InputDecoration(label: Text("Make")),
                       ),
                     ),
                     SizedBox(
                       height: 10,
                       child: TextField(
-                        decoration: InputDecoration(label: Text("Make")),
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: madeController,
+                        decoration: const InputDecoration(label: Text("Made")),
                       ),
                     ),
                     SizedBox(
                       height: 10,
                       child: TextField(
-                        decoration: InputDecoration(label: Text("Made")),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                      child: TextField(
-                        decoration: InputDecoration(label: Text("Model")),
+                        style: TextStyle(color: Colors.grey[200]),
+                        controller: modelController,
+                        decoration: const InputDecoration(label: Text("Model")),
                       ),
                     ),
                   ],
@@ -78,7 +96,9 @@ class _SearchVehicleState extends State<SearchVehicle> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {});
+                  },
                   child: Container(
                     alignment: Alignment.center,
                     height: 70,
@@ -95,17 +115,34 @@ class _SearchVehicleState extends State<SearchVehicle> {
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.65,
-                child: ListView(
-                  children: const [
-                    VehicleTile(
-                      vehicleNumber: "AGD423",
-                      customerID: "1",
-                      make: "Hyundai",
-                      made: "2006",
-                      model: "Santro",
-                    )
-                  ],
-                ),
+                child: FutureBuilder(
+                    future: searchVehicle(
+                      vehicleNumberController.text,
+                      makeController.text,
+                      madeController.text,
+                      modelController.text,
+                      customerIDController.text,
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<Vehicle> searchResults = snapshot.data!;
+                        return ListView.builder(
+                            itemCount: searchResults.length,
+                            itemBuilder: ((context, index) {
+                              return VehicleTile(
+                                vehicleNumber: searchResults[index].vehicleNumber,
+                                customerID: searchResults[index].customerID,
+                                make: searchResults[index].make,
+                                made: searchResults[index].made,
+                                model: searchResults[index].model,
+                              );
+                            }));
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }),
               ),
             )
           ],

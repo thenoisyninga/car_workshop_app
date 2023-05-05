@@ -1,11 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:car_workshop_app/models/vehicle.dart';
-import 'package:car_workshop_app/widgets/vehicle_tile.dart';
+import 'package:car_workshop_app/widgets/tiles/vehicle_tile.dart';
 import 'package:flutter/material.dart';
 
 import '../data_ops/fetching_data.dart';
 import '../models/customer.dart';
-import '../widgets/job_tile.dart';
+import '../models/job.dart';
+import '../widgets/tiles/job_tile.dart';
 
 class VehicleInfo extends StatefulWidget {
   const VehicleInfo({
@@ -146,11 +147,26 @@ class _VehicleInfoState extends State<VehicleInfo> {
                                   child: SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.45,
-                                    child: ListView(
-                                      children: const [
-                                        JobTile(jobID: "1"),
-                                      ],
-                                    ),
+                                    child: FutureBuilder(
+                                        future: getJobsForVehicle(
+                                            widget.vehicleNumber),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            List<Job> jobs = snapshot.data!;
+                                            return ListView.builder(
+                                                itemCount: jobs.length,
+                                                itemBuilder: (context, index) {
+                                                  return JobTile(
+                                                    jobInfo: jobs[index],
+                                                  );
+                                                });
+                                          } else {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
+                                        }),
                                   ),
                                 )
                               ],
