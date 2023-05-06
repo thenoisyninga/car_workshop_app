@@ -144,14 +144,8 @@ class _SearchCustomerState extends State<SearchCustomer> {
                         return ListView.builder(
                             itemCount: searchResults.length,
                             itemBuilder: ((context, index) {
-                              
                               return CustomerTile(
-                                customerID: searchResults[index].customerID,
-                                firstName: searchResults[index].firstName,
-                                lastName: searchResults[index].lastName,
-                                contact1: searchResults[index].contact1,
-                                contact2: searchResults[index].contact2,
-                                contact3: searchResults[index].contact3,
+                                customer: searchResults[index],
                               );
                             }));
                       } else {

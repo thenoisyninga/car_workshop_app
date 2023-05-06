@@ -130,11 +130,7 @@ class _SearchVehicleState extends State<SearchVehicle> {
                             itemCount: searchResults.length,
                             itemBuilder: ((context, index) {
                               return VehicleTile(
-                                vehicleNumber: searchResults[index].vehicleNumber,
-                                customerID: searchResults[index].customerID,
-                                make: searchResults[index].make,
-                                made: searchResults[index].made,
-                                model: searchResults[index].model,
+                                vehicle: searchResults[index],
                               );
                             }));
                       } else {

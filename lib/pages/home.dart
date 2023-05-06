@@ -1,9 +1,12 @@
 import 'package:car_workshop_app/constants.dart';
 import 'package:car_workshop_app/data_ops/fetching_data.dart';
+import 'package:car_workshop_app/data_ops/searching_data.dart';
 import 'package:car_workshop_app/pages/search_customer.dart';
 import 'package:car_workshop_app/pages/search_vehicle.dart';
+import 'package:car_workshop_app/widgets/dialogues/add_customer.dart';
 import 'package:flutter/material.dart';
 
+import '../data_ops/adding_data.dart';
 import '../data_ops/user_management.dart';
 
 class Home extends StatefulWidget {
@@ -17,11 +20,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.person, size: 50,))],
-      // ),
       body: Center(
         child: Column(
           children: [
@@ -79,7 +77,11 @@ class _HomeState extends State<Home> {
 
             // Add Customer Button
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => const AddCustomerDialogue());
+              },
               child: Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.1,
@@ -150,9 +152,7 @@ class _HomeState extends State<Home> {
 
             // Recent Jobs Button
             ElevatedButton(
-              onPressed: () {
-                getJob("1");
-              },
+              onPressed: () async {},
               child: Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.1,

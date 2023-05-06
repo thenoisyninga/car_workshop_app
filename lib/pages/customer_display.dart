@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:car_workshop_app/widgets/dialogues/add_vehicle.dart';
 import 'package:car_workshop_app/widgets/tiles/vehicle_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -36,9 +37,10 @@ class _CustomerInfoState extends State<CustomerInfo> {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
+                      height: MediaQuery.of(context).size.height * 0.1,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -154,9 +156,12 @@ class _CustomerInfoState extends State<CustomerInfo> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    Expanded(
-                        child: Container(
-                      // color: Colors.black,
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.grey[800],
+                      ),
                       child: Column(
                         children: [
                           Padding(
@@ -174,7 +179,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.45,
+                              height: MediaQuery.of(context).size.height * 0.35,
                               child: FutureBuilder(
                                   future:
                                       getVehiclesForCustomer(widget.customerID),
@@ -185,13 +190,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
                                         itemCount: vehicles.length,
                                         itemBuilder: (context, index) {
                                           return VehicleTile(
-                                            vehicleNumber:
-                                                vehicles[index].vehicleNumber,
-                                            customerID:
-                                                vehicles[index].customerID,
-                                            make: vehicles[index].make,
-                                            made: vehicles[index].made,
-                                            model: vehicles[index].model,
+                                            vehicle: vehicles[index],
                                           );
                                         },
                                       );
@@ -204,7 +203,31 @@ class _CustomerInfoState extends State<CustomerInfo> {
                           )
                         ],
                       ),
-                    ))
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AddVehicleDialogue(
+                              customerID: customer.customerID,
+                            ),
+                          ).then((e) {
+                              setState(() {});
+                            });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: const Text(
+                            "Add New Vehicle",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               );

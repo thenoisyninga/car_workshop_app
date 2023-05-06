@@ -146,7 +146,7 @@ class _VehicleInfoState extends State<VehicleInfo> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
                                     height: MediaQuery.of(context).size.height *
-                                        0.45,
+                                        0.3,
                                     child: FutureBuilder(
                                         future: getJobsForVehicle(
                                             widget.vehicleNumber),
@@ -168,7 +168,16 @@ class _VehicleInfoState extends State<VehicleInfo> {
                                           }
                                         }),
                                   ),
-                                )
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: MediaQuery.of(context).size.height * 0.1,
+                                    width: MediaQuery.of(context).size.width * 0.8,
+                                    child: Text("Add New Job", style: TextStyle(fontSize: 20),),
+                                  ),
+                                ),
                               ],
                             );
                           }),

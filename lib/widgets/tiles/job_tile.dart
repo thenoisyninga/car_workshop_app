@@ -44,7 +44,9 @@ class JobTile extends StatelessWidget {
                     Text(
                       "Job ${jobInfo.jobID}",
                       style: const TextStyle(
-                          fontSize: 19, fontWeight: FontWeight.w500),
+                        fontSize: 19,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     Transform.translate(
                       offset: const Offset(-6, 0),
