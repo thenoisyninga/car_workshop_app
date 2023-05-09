@@ -1,12 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:car_workshop_app/data_ops/fetching_data.dart';
 import 'package:car_workshop_app/models/customer.dart';
 import 'package:flutter/material.dart';
 
+import '../data_ops/deleting_data.dart';
 import '../models/job.dart';
 import '../models/part_service.dart';
 import '../models/vehicle.dart';
-import '../widgets/tiles/job_tile.dart';
 import '../widgets/tiles/part_service_tile.dart';
 
 class JobInfo extends StatefulWidget {
@@ -69,6 +71,52 @@ class _JobInfoState extends State<JobInfo> {
                                         color: Colors.white,
                                         fontSize: 17,
                                       ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        const Text(
+                                          "Added at",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
+                                        Text(
+                                          job.dateTimeAdded
+                                              .toString()
+                                              .substring(0, 10),
+                                          style: const TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.02,
+                                    ),
+                                    Column(
+                                      children: [
+                                        const Text(
+                                          "Finished at",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
+                                        Text(
+                                          job.dateTimeFinished != null
+                                              ? job.dateTimeFinished
+                                                  .toString()
+                                                  .substring(0, 10)
+                                              : "-",
+                                          style: const TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -213,7 +261,7 @@ class _JobInfoState extends State<JobInfo> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
+                      child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.3,
                         child: FutureBuilder(
                             future: getPartServiceForJob(widget.jobID),
@@ -225,7 +273,10 @@ class _JobInfoState extends State<JobInfo> {
                                     itemCount: partServicesList.length,
                                     itemBuilder: (context, index) {
                                       return PartServiceTile(
-                                          partService: partServicesList[index]);
+                                        partService: partServicesList[index],
+                                        deletePartServiceCallback:
+                                            deletePartService,
+                                      );
                                     });
                               } else {
                                 return const Center(
@@ -242,7 +293,14 @@ class _JobInfoState extends State<JobInfo> {
                         children: [
                           // Add Part button
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (context) => AddPartServiceDialogue(
+                              //     jobID: job.jobID,
+                              //   ),
+                              // );
+                            },
                             child: Container(
                               alignment: Alignment.center,
                               height: MediaQuery.of(context).size.height * 0.07,
@@ -334,5 +392,42 @@ class _JobInfoState extends State<JobInfo> {
             }
           }),
     );
+  }
+
+  Future<void> deletePartService(String name, String jobID) async {
+    String result = await deletePartServiceCloud(name, jobID);
+    if (result == "SUCCESS") {
+      setState(() {});
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("$name deleted successfully")));
+    } else if (result == "ERROR") {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text(
+            "Unknown error occoured",
+          ),
+          actions: [
+            ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Okay"))
+          ],
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            "Error occoured: Status code $result",
+          ),
+          actions: [
+            ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Okay"))
+          ],
+        ),
+      );
+    }
   }
 }

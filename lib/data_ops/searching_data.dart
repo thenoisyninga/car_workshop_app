@@ -59,7 +59,6 @@ Future<List<Vehicle>?> searchVehicle(
   try {
     var result = await http.get(Uri.parse(
         "http://$webServerAddress/search_vehicle.php?username=$username&hash=$hash&vehicleNumber=$vehicleNumber&make=$make&made=$made&model=$model&customerID=$customerID"));
-    print("http://$webServerAddress/search_vehicle.php?username=$username&hash=$hash&vehicleNumber=$vehicleNumber&make=$make&made=$made&model=$model&customerID=$customerID");
     if (result.statusCode == 200) {
       return result.body
           .split("%SEPERATOR%")

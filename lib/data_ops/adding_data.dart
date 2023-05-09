@@ -75,3 +75,35 @@ Future<String> addVehicle(
     return "ERROR";
   }
 }
+
+Future<String> addJob(
+  String customerComplaint,
+  String? workDetails,
+  String vehicleNumber,
+  DateTime dateTimeAdded,
+  double kilometers,
+) async {
+  String username = getSessionUsername();
+  String hash = getSessionHash();
+  double cost = 0;
+  double price = 0;
+  double paid = 0;
+  DateTime? dateTimeFinished;
+
+  try {
+    var result = await http.get(Uri.parse(
+        "http://localhost/add_job.php?username=$username&hash=$hash&customerComplaint=$customerComplaint&workDetails=$workDetails&cost=$cost&price=$price&paid=$paid&vehicleNumber=$vehicleNumber&addedDateTime=$dateTimeAdded&dateTimeFinished=$dateTimeFinished&kilometers=$kilometers"));
+    if (result.statusCode == 200) {
+      if (result.body == "1") {
+        return "SUCCESS";
+      } else {
+        return "FAILED";
+      }
+    } else {
+      return result.statusCode.toString();
+    }
+  } on Exception catch (_) {
+    return "ERROR";
+  }
+}
+

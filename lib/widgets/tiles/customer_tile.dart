@@ -28,7 +28,7 @@ class CustomerTile extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.circular(10)
           ),
           child: Padding(
@@ -45,6 +45,7 @@ class CustomerTile extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,
+                        color: Colors.black,
                       ),
                     ),
                     Text(

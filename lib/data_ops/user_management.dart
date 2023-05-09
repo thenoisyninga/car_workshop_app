@@ -2,7 +2,6 @@ import 'package:car_workshop_app/constants.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:cryptography/cryptography.dart';
-import 'package:encrypt/encrypt.dart';
 
 final _myBox = Hive.box("USER_SESSION_DATA");
 

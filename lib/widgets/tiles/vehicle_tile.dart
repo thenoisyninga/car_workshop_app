@@ -28,7 +28,7 @@ class VehicleTile extends StatelessWidget {
         padding: const EdgeInsets.all(4.0),
         child: Container(
           decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -44,6 +44,7 @@ class VehicleTile extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,
+                        color: Colors.black,
                       ),
                     ),
                     Text(

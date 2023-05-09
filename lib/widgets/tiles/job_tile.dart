@@ -1,9 +1,7 @@
-import 'package:car_workshop_app/pages/customer_display.dart';
 import 'package:car_workshop_app/pages/job_display.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/job.dart';
-import '../../pages/vehicle_display.dart';
 
 class JobTile extends StatelessWidget {
   const JobTile({
@@ -30,7 +28,7 @@ class JobTile extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -46,6 +44,7 @@ class JobTile extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,
+                        color: Colors.black,
                       ),
                     ),
                     Transform.translate(

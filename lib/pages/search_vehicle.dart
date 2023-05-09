@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../data_ops/searching_data.dart';
 import '../models/vehicle.dart';
-import '../widgets/tiles/customer_tile.dart';
 import '../widgets/tiles/vehicle_tile.dart';
 
 class SearchVehicle extends StatefulWidget {

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:car_workshop_app/data_ops/adding_data.dart';
 import 'package:flutter/material.dart';
 
@@ -91,19 +93,41 @@ class _AddVehicleDialogueState extends State<AddVehicleDialogue> {
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: addNewVehicle,
-              child: Container(
-                alignment: Alignment.center,
-                height: 100,
-                width: 600,
-                child: const Text(
-                  "Add New Vehicle",
-                  style: TextStyle(
-                    fontSize: 20,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: addNewVehicle,
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 100,
+                    width: 295,
+                    child: const Text(
+                      "Add New Vehicle",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 100,
+                    width: 95,
+                    child: const Text(
+                      "Cancel",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

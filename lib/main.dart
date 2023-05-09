@@ -25,13 +25,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MaterialColor? primaryColor = Colors.blue;
-    Color? scaffoldBackgroundColor = Colors.grey[900]; 
+    Color? scaffoldBackgroundColor = Colors.grey[900];
     return MaterialApp(
       title: workshopName,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: primaryColor,
         scaffoldBackgroundColor: Colors.grey[900],
+        colorScheme: ColorScheme(
+          brightness: Brightness.dark,
+          primary: primaryColor,
+          onPrimary: Colors.white,
+          secondary: primaryColor.withAlpha(190),
+          onSecondary: Colors.white,
+          error: Colors.red,
+          onError: Colors.white,
+          background: primaryColor,
+          onBackground: Colors.white,
+          surface: Colors.grey[900]!,
+          onSurface: Colors.white,
+        ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.grey[850],
@@ -71,7 +84,8 @@ class MyApp extends StatelessWidget {
         '/search_customer': ((context) => const SearchCustomer()),
         '/search_vehicle': ((context) => const SearchVehicle()),
         '/customer_info': ((context) => const CustomerInfo(
-            customerID: '',)),
+              customerID: '',
+            )),
         '/vehicle_info': (context) => const VehicleInfo(
               vehicleNumber: "",
             ),

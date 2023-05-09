@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:car_workshop_app/data_ops/adding_data.dart';
 import 'package:car_workshop_app/models/vehicle.dart';
-import 'package:car_workshop_app/widgets/tiles/vehicle_tile.dart';
+import 'package:car_workshop_app/widgets/dialogues/add_job.dart';
 import 'package:flutter/material.dart';
 
 import '../data_ops/fetching_data.dart';
@@ -123,65 +124,77 @@ class _VehicleInfoState extends State<VehicleInfo> {
                     ),
                     const SizedBox(height: 16),
                     Expanded(
-                        child: Container(
-                      // color: Colors.black,
-                      child: FutureBuilder(
-                          future: getCustomer(vehicle.customerID),
-                          builder: (context, snapshot) {
-                            return Column(
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(16.0),
-                                  child: Expanded(
-                                    child: Text(
-                                      "Jobs on this vehicle",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
+                        child: FutureBuilder(
+                            future: getCustomer(vehicle.customerID),
+                            builder: (context, snapshot) {
+                              return Column(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Expanded(
+                                      child: Text(
+                                        "Jobs on this vehicle",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.3,
-                                    child: FutureBuilder(
-                                        future: getJobsForVehicle(
-                                            widget.vehicleNumber),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            List<Job> jobs = snapshot.data!;
-                                            return ListView.builder(
-                                                itemCount: jobs.length,
-                                                itemBuilder: (context, index) {
-                                                  return JobTile(
-                                                    jobInfo: jobs[index],
-                                                  );
-                                                });
-                                          } else {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          }
-                                        }),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
+                                      child: FutureBuilder(
+                                          future: getJobsForVehicle(
+                                              widget.vehicleNumber),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              List<Job> jobs = snapshot.data!;
+                                              return ListView.builder(
+                                                  itemCount: jobs.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return JobTile(
+                                                      jobInfo: jobs[index],
+                                                    );
+                                                  });
+                                            } else {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            }
+                                          }),
+                                    ),
                                   ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: MediaQuery.of(context).size.height * 0.1,
-                                    width: MediaQuery.of(context).size.width * 0.8,
-                                    child: Text("Add New Job", style: TextStyle(fontSize: 20),),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AddJobDialogue(
+                                          vehicleNumber: vehicle.vehicleNumber,
+                                        ),
+                                      ).then((value) => setState(() {}));
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.1,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      child: const Text(
+                                        "Add New Job",
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            );
-                          }),
-                    ))
+                                ],
+                              );
+                            }))
                   ],
                 ),
               );

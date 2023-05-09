@@ -3,29 +3,35 @@
 import 'package:car_workshop_app/data_ops/adding_data.dart';
 import 'package:flutter/material.dart';
 
-class AddCustomerDialogue extends StatefulWidget {
-  const AddCustomerDialogue({super.key});
+class AddJobDialogue extends StatefulWidget {
+  const AddJobDialogue({
+    super.key,
+    required this.vehicleNumber,
+  });
+
+  final String vehicleNumber;
 
   @override
-  State<AddCustomerDialogue> createState() => _AddCustomerDialogueState();
+  State<AddJobDialogue> createState() => _AddJobDialogueState();
 }
 
-class _AddCustomerDialogueState extends State<AddCustomerDialogue> {
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController contactNum1Controller = TextEditingController();
-  TextEditingController contactNum2Controller = TextEditingController();
-  TextEditingController contactNum3Controller = TextEditingController();
+class _AddJobDialogueState extends State<AddJobDialogue> {
+  TextEditingController customerComplaintController = TextEditingController();
+  TextEditingController workDetailsController = TextEditingController();
+  TextEditingController kilometersController = TextEditingController();
+  TextEditingController dateTimeAddedController = TextEditingController();
 
-  String? firstNameError;
-  String? lastNameError;
-  String? contactNum1Error;
+  DateTime? dateTimeAdded = DateTime.now();
+  String? kilometersError;
+  String? dateTimeAddedError;
 
   @override
   Widget build(BuildContext context) {
+    dateTimeAddedController.text = dateTimeAdded != null ? dateTimeAdded.toString().substring(0, 10): "";
+
     return AlertDialog(
       title: const Text(
-        "Add Customer",
+        "Add Job",
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.white,
@@ -34,25 +40,24 @@ class _AddCustomerDialogueState extends State<AddCustomerDialogue> {
         ),
       ),
       content: SizedBox(
-        height: 350,
+        height: 280,
         width: 600,
         child: Column(
           children: [
             SizedBox(
-              height: 250,
+              height: 180,
               child: GridView.count(
                 crossAxisSpacing: 5,
                 crossAxisCount: 2,
-                childAspectRatio: (600 / 2) / 80,
+                childAspectRatio: (600 / 2) / 100,
                 children: [
                   SizedBox(
                     height: 10,
                     child: TextField(
                       style: TextStyle(color: Colors.grey[200]),
-                      controller: firstNameController,
-                      decoration: InputDecoration(
-                        label: const Text("First Name*"),
-                        errorText: firstNameError,
+                      controller: customerComplaintController,
+                      decoration: const InputDecoration(
+                        label: Text("Customer Complaint"),
                       ),
                     ),
                   ),
@@ -60,40 +65,50 @@ class _AddCustomerDialogueState extends State<AddCustomerDialogue> {
                     height: 10,
                     child: TextField(
                       style: TextStyle(color: Colors.grey[200]),
-                      controller: lastNameController,
-                      decoration: InputDecoration(
-                        label: const Text("Last Name*"),
-                        errorText: lastNameError,
+                      controller: workDetailsController,
+                      decoration: const InputDecoration(
+                        label: Text("Work Details"),
                       ),
                     ),
                   ),
                   SizedBox(
                     height: 10,
                     child: TextField(
+                      readOnly: true,
+                      onTap: () async {
+                        dateTimeAdded = await showDatePicker(
+                          context: context,
+                          initialDate: dateTimeAdded ?? DateTime.now(),
+                          firstDate: DateTime.now()
+                              .subtract(const Duration(days: 365)),
+                          lastDate:
+                              DateTime.now().add(const Duration(days: 365)),
+                        );
+
+                        if (dateTimeAdded != null) {
+                          setState(() {
+                            dateTimeAddedController.text =
+                                dateTimeAdded.toString().substring(0, 10);
+                          });
+                        }
+                      },
                       style: TextStyle(color: Colors.grey[200]),
-                      controller: contactNum1Controller,
-                      decoration: InputDecoration(
-                        label: const Text("Phone Number 1*"),
-                        errorText: contactNum1Error,
+                      controller: dateTimeAddedController,
+                      decoration: const InputDecoration(
+                        label: Text("Added At"),
                       ),
                     ),
                   ),
                   SizedBox(
                     height: 10,
                     child: TextField(
+                      keyboardType: TextInputType.number,
                       style: TextStyle(color: Colors.grey[200]),
-                      controller: contactNum2Controller,
-                      decoration:
-                          const InputDecoration(label: Text("Phone Number 2")),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                    child: TextField(
-                      style: TextStyle(color: Colors.grey[200]),
-                      controller: contactNum3Controller,
-                      decoration:
-                          const InputDecoration(label: Text("Phone Number 3")),
+                      controller: kilometersController,
+                      decoration: InputDecoration(
+                        label: const Text("Kilometers"),
+                        errorText: kilometersError,
+                      ),
                     ),
                   ),
                 ],
@@ -103,13 +118,13 @@ class _AddCustomerDialogueState extends State<AddCustomerDialogue> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: addNewCustomer,
+                  onPressed: addNewJob,
                   child: Container(
                     alignment: Alignment.center,
                     height: 100,
                     width: 295,
                     child: const Text(
-                      "Add New Customer",
+                      "Add New Job",
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -141,12 +156,11 @@ class _AddCustomerDialogueState extends State<AddCustomerDialogue> {
     );
   }
 
-  Future<void> addNewCustomer() async {
-    String firstName = firstNameController.text;
-    String lastName = lastNameController.text;
-    String contactNum1 = contactNum1Controller.text;
-    String contactNum2 = contactNum2Controller.text;
-    String contactNum3 = contactNum3Controller.text;
+  Future<void> addNewJob() async {
+    String vehicleNumber = widget.vehicleNumber;
+    String kilometers = kilometersController.text;
+    String customerComplaint = customerComplaintController.text;
+    String workDetails = workDetailsController.text;
 
     showDialog(
         context: context,
@@ -156,35 +170,33 @@ class _AddCustomerDialogueState extends State<AddCustomerDialogue> {
               ),
             ));
 
-    if (firstName.isEmpty) {
-      firstNameError = "Required Field";
+    if (kilometers.isEmpty) {
+      kilometersError = "Required Field";
+    } else if (double.tryParse(kilometers) == null) {
+      kilometersError = "This field requires a number";
     } else {
-      firstNameError = null;
-    }
-    if (lastName.isEmpty) {
-      lastNameError = "Required Field";
-    } else {
-      lastNameError = null;
-    }
-    if (contactNum1.isEmpty) {
-      contactNum1Error = "Required Field";
-    } else {
-      contactNum1Error = null;
+      kilometersError = null;
     }
 
-    if (firstName.isNotEmpty && lastName.isNotEmpty && contactNum1.isNotEmpty) {
-      var result = await addCustomer(
-        firstName,
-        lastName,
-        contactNum1,
-        contactNum2,
-        contactNum3,
+    if (dateTimeAdded == null) {
+      dateTimeAddedError = "Required Field";
+    } else {
+      dateTimeAddedError = null;
+    }
+
+    if (kilometers.isNotEmpty && double.tryParse(kilometers) != null && dateTimeAdded != null) {
+      var result = await addJob(
+        customerComplaint,
+        workDetails,
+        vehicleNumber,
+        dateTimeAdded!,
+        double.parse(kilometers),
       );
       if (result == "SUCCESS") {
         Navigator.pop(context);
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Customer added"),
+          content: Text("Job added"),
         ));
       } else if (result == "ERROR" || result == "FAILED") {
         Navigator.pop(context);

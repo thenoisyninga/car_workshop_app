@@ -1,12 +1,8 @@
 import 'package:car_workshop_app/constants.dart';
-import 'package:car_workshop_app/data_ops/fetching_data.dart';
-import 'package:car_workshop_app/data_ops/searching_data.dart';
 import 'package:car_workshop_app/pages/search_customer.dart';
 import 'package:car_workshop_app/pages/search_vehicle.dart';
 import 'package:car_workshop_app/widgets/dialogues/add_customer.dart';
 import 'package:flutter/material.dart';
-
-import '../data_ops/adding_data.dart';
 import '../data_ops/user_management.dart';
 
 class Home extends StatefulWidget {
@@ -39,9 +35,7 @@ class _HomeState extends State<Home> {
               height: 10,
             ),
             GestureDetector(
-              onTap: () {
-                print("working");
-              },
+              onTap: () {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -5,9 +5,11 @@ class PartServiceTile extends StatelessWidget {
   const PartServiceTile({
     super.key,
     required this.partService,
+    required this.deletePartServiceCallback,
   });
 
   final PartService partService;
+  final Function(String, String) deletePartServiceCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,12 @@ class PartServiceTile extends StatelessWidget {
             Row(
               children: [
                 Text("Rs.${partService.cost}"),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.delete))
+                IconButton(
+                    onPressed: () async {
+                      await deletePartServiceCallback(
+                        partService.name, partService.jobID);
+                    },
+                    icon: const Icon(Icons.delete))
               ],
             ),
           ],
