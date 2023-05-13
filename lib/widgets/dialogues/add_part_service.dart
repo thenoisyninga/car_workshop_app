@@ -1,200 +1,308 @@
-// import 'package:car_workshop_app/data_ops/adding_data.dart';
-// import 'package:flutter/material.dart';
+// ignore_for_file: use_build_context_synchronously
 
-// class AddPartServiceDialogue extends StatefulWidget {
-//   const AddPartServiceDialogue({
-//     super.key,
-//     required this.jobID,
-//   });
+import 'package:car_workshop_app/data_ops/adding_data.dart';
+import 'package:flutter/material.dart';
 
-//   final String jobID;
+class AddPartServiceDialogue extends StatefulWidget {
+  const AddPartServiceDialogue({
+    super.key,
+    required this.jobID,
+  });
 
-//   @override
-//   State<AddPartServiceDialogue> createState() => _AddPartServiceDialogueState();
-// }
+  final String jobID;
 
-// class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
-//   TextEditingController nameController = TextEditingController();
-//   TextEditingController typeController = TextEditingController();
-//   TextEditingController costController = TextEditingController();
-//   TextEditingController supplierController = TextEditingController();
-//   TextEditingController timeAddedController = TextEditingController();
+  @override
+  State<AddPartServiceDialogue> createState() => _AddPartServiceDialogueState();
+}
 
-//   String? PartServiceNumberError;
-//   String? makeError;
-//   String? modelError;
+class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
+  TextEditingController costController = TextEditingController();
+  TextEditingController supplierController = TextEditingController();
+  TextEditingController timeAddedController = TextEditingController();
+  TextEditingController detailsController = TextEditingController();
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       title: const Text(
-//         "Add PartService",
-//         textAlign: TextAlign.center,
-//         style: TextStyle(
-//           color: Colors.white,
-//           fontSize: 20,
-//           fontWeight: FontWeight.bold,
-//         ),
-//       ),
-//       content: SizedBox(
-//         height: 280,
-//         width: 600,
-//         child: Column(
-//           children: [
-//             SizedBox(
-//               height: 180,
-//               child: GridView.count(
-//                 crossAxisSpacing: 5,
-//                 crossAxisCount: 2,
-//                 childAspectRatio: (600 / 2) / 100,
-//                 children: [
-//                   SizedBox(
-//                     height: 10,
-//                     child: TextField(
-//                       style: TextStyle(color: Colors.grey[200]),
-//                       controller: PartServiceNumberController,
-//                       decoration: InputDecoration(
-//                         label: const Text("PartService Number*"),
-//                         errorText: PartServiceNumberError,
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 10,
-//                     child: TextField(
-//                       style: TextStyle(color: Colors.grey[200]),
-//                       controller: makeController,
-//                       decoration: InputDecoration(
-//                         label: const Text("Make*"),
-//                         errorText: makeError,
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 10,
-//                     child: TextField(
-//                       style: TextStyle(color: Colors.grey[200]),
-//                       controller: modelController,
-//                       decoration: InputDecoration(
-//                         label: const Text("Model*"),
-//                         errorText: modelError,
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 10,
-//                     child: TextField(
-//                       style: TextStyle(color: Colors.grey[200]),
-//                       controller: madeController,
-//                       decoration: const InputDecoration(label: Text("Made")),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             ElevatedButton(
-//               onPressed: addNewPartService,
-//               child: Container(
-//                 alignment: Alignment.center,
-//                 height: 100,
-//                 width: 600,
-//                 child: const Text(
-//                   "Add New PartService",
-//                   style: TextStyle(
-//                     fontSize: 20,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
+  String? nameError;
+  String? costError;
+  String? supplierError;
+  String type = "Part";
 
-//   Future<void> addNewPartService() async {
-//     String PartServiceNumber = PartServiceNumberController.text;
-//     String make = makeController.text;
-//     String made = madeController.text;
-//     String model = modelController.text;
+  DateTime dateTimeAdded = DateTime.now();
 
-//     showDialog(
-//         context: context,
-//         builder: (context) => const AlertDialog(
-//               content: Center(
-//                 child: CircularProgressIndicator(),
-//               ),
-//             ));
+  @override
+  Widget build(BuildContext context) {
+    timeAddedController.text = dateTimeAdded.toString().substring(0, 10);
+    typeController.text = type;
+    return AlertDialog(
+      title: const Text(
+        "Add PartService",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: SizedBox(
+        height: 400,
+        width: 600,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 300,
+              child: GridView.count(
+                crossAxisSpacing: 5,
+                crossAxisCount: 2,
+                childAspectRatio: (600 / 2) / 100,
+                children: [
+                  SizedBox(
+                    height: 10,
+                    child: TextField(
+                      style: TextStyle(color: Colors.grey[200]),
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        label: const Text("Name"),
+                        errorText: nameError,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                    child: TextField(
+                      style: TextStyle(color: Colors.grey[200]),
+                      controller: typeController,
+                      readOnly: true,
+                      decoration: const InputDecoration(
+                        label: Text("Type"),
+                      ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text("Choose Type"),
+                            content: SizedBox(
+                              height: 200,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ElevatedButton(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 50,
+                                      width: 200,
+                                      child: const Text("Part"),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        type = "Part";
+                                      });
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  ElevatedButton(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 50,
+                                      width: 200,
+                                      child: const Text("Service"),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        type = "Service";
+                                      });
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  ElevatedButton(
+                                    child: Container(
+                                        alignment: Alignment.center,
+                                        height: 50,
+                                        width: 200,
+                                        child: const Text("External Service")),
+                                    onPressed: () {
+                                      setState(() {
+                                        type = "External Service";
+                                      });
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                    child: TextField(
+                      style: TextStyle(color: Colors.grey[200]),
+                      controller: costController,
+                      decoration: InputDecoration(
+                        label: const Text("Cost"),
+                        errorText: costError,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                    child: TextField(
+                      enabled: type == "Part" || type == "External Service",
+                      style: TextStyle(color: Colors.grey[200]),
+                      controller: supplierController,
+                      decoration: InputDecoration(
+                        label: const Text("Supplier"),
+                        errorText: supplierError
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                    child: TextField(
+                      readOnly: true,
+                      onTap: () async {
+                        DateTime? selectedDate = await showDatePicker(
+                          context: context,
+                          initialDate: dateTimeAdded,
+                          firstDate: DateTime.now()
+                              .subtract(const Duration(days: 365)),
+                          lastDate:
+                              DateTime.now().add(const Duration(days: 365)),
+                        );
 
-//     if (PartServiceNumber.isEmpty) {
-//       PartServiceNumberError = "Required Field";
-//     } else if (await PartServiceExistsCheck(PartServiceNumber)) {
-//       PartServiceNumberError = "PartService already registered";
-//     } else {
-//       PartServiceNumberError = null;
-//     }
-//     if (make.isEmpty) {
-//       makeError = "Required Field";
-//     } else {
-//       makeError = null;
-//     }
-//     if (model.isEmpty) {
-//       modelError = "Required Field";
-//     } else {
-//       modelError = null;
-//     }
+                        if (selectedDate != null) {
+                          setState(() {
+                            dateTimeAdded = selectedDate;
+                          });
+                        }
+                      },
+                      style: TextStyle(color: Colors.grey[200]),
+                      controller: timeAddedController,
+                      decoration: const InputDecoration(
+                        label: Text("Added At"),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                    child: TextField(
+                      style: TextStyle(color: Colors.grey[200]),
+                      controller: detailsController,
+                      decoration: const InputDecoration(
+                        label: Text("Details"),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: addNewPartService,
+              child: Container(
+                alignment: Alignment.center,
+                height: 100,
+                width: 600,
+                child: const Text(
+                  "Add New PartService",
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-//     if (PartServiceNumber.isNotEmpty &&
-//         make.isNotEmpty &&
-//         model.isNotEmpty &&
-//         !(await PartServiceExistsCheck(PartServiceNumber))) {
-//       var result = await addPartService(
-//         PartServiceNumber,
-//         make,
-//         made,
-//         model,
-//         widget.customerID,
-//       );
-//       if (result == "SUCCESS") {
-//         Navigator.pop(context);
-//         Navigator.pop(context);
-//         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-//           content: Text("PartService added"),
-//         ));
-//       } else if (result == "ERROR" || result == "FAILED") {
-//         Navigator.pop(context);
-//         showDialog(
-//           context: context,
-//           builder: (context) => AlertDialog(
-//             title: const Text(
-//               "Unknown error occoured",
-//             ),
-//             actions: [
-//               ElevatedButton(
-//                   onPressed: () => Navigator.pop(context),
-//                   child: const Text("Okay"))
-//             ],
-//           ),
-//         );
-//       } else {
-//         Navigator.pop(context);
-//         showDialog(
-//           context: context,
-//           builder: (context) => AlertDialog(
-//             title: Text(
-//               "Error: Status Code: $result",
-//             ),
-//             actions: [
-//               ElevatedButton(
-//                   onPressed: () => Navigator.pop(context),
-//                   child: const Text("Okay"))
-//             ],
-//           ),
-//         );
-//       }
-//     } else {
-//       Navigator.pop(context);
-//       setState(() {});
-//     }
-//   }
-// }
+  Future<void> addNewPartService() async {
+    String name = nameController.text;
+    String type = typeController.text;
+    String cost = costController.text;
+    String supplier = supplierController.text;
+    String details = detailsController.text;
+    String jobID = widget.jobID;
+
+    showDialog(
+        context: context,
+        builder: (context) => const AlertDialog(
+              content: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ));
+
+    if (name.isEmpty) {
+      nameError = "Cannot be empty";
+    } else {
+      nameError = null;
+    }
+    if (cost.isEmpty) {
+      costError = "Cannot be empty";
+    } else if (double.tryParse(cost) == null) {
+      costError = "Is not a number";
+    } else {
+      costError = null;
+    }
+    if (supplier.isEmpty && type == "External Service") {
+      supplierError = "Cannot be empty for this type";
+    } else {
+      supplierError = null;
+    }
+
+    if (costError == null && nameError == null && supplierError == null) {
+      String result = await addPartService(
+        name,
+        type,
+        double.parse(cost),
+        supplier,
+        jobID,
+        dateTimeAdded,
+        details.isNotEmpty ? details : null,
+      );
+      if (result == "SUCCESS") {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("$type added"),
+        ));
+      } else if (result == "ERROR" || result == "FAILED") {
+        Navigator.pop(context);
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text(
+              "Unknown error occoured",
+            ),
+            actions: [
+              ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Okay"))
+            ],
+          ),
+        );
+      } else {
+        Navigator.pop(context);
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(
+              "Error: Status Code: $result",
+            ),
+            actions: [
+              ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Okay"))
+            ],
+          ),
+        );
+      }
+    } else {
+      Navigator.pop(context);
+      setState(() {});
+    }
+  }
+}

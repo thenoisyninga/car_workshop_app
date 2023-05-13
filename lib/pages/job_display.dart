@@ -9,6 +9,7 @@ import '../data_ops/deleting_data.dart';
 import '../models/job.dart';
 import '../models/part_service.dart';
 import '../models/vehicle.dart';
+import '../widgets/dialogues/add_part_service.dart';
 import '../widgets/tiles/part_service_tile.dart';
 
 class JobInfo extends StatefulWidget {
@@ -294,12 +295,12 @@ class _JobInfoState extends State<JobInfo> {
                           // Add Part button
                           ElevatedButton(
                             onPressed: () {
-                              // showDialog(
-                              //   context: context,
-                              //   builder: (context) => AddPartServiceDialogue(
-                              //     jobID: job.jobID,
-                              //   ),
-                              // );
+                              showDialog(
+                                context: context,
+                                builder: (context) => AddPartServiceDialogue(
+                                  jobID: job.jobID,
+                                ),
+                              ).then((value) => setState(() {}));
                             },
                             child: Container(
                               alignment: Alignment.center,

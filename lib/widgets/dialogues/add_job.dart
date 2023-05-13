@@ -27,7 +27,8 @@ class _AddJobDialogueState extends State<AddJobDialogue> {
 
   @override
   Widget build(BuildContext context) {
-    dateTimeAddedController.text = dateTimeAdded != null ? dateTimeAdded.toString().substring(0, 10): "";
+    dateTimeAddedController.text =
+        dateTimeAdded != null ? dateTimeAdded.toString().substring(0, 10) : "";
 
     return AlertDialog(
       title: const Text(
@@ -184,7 +185,9 @@ class _AddJobDialogueState extends State<AddJobDialogue> {
       dateTimeAddedError = null;
     }
 
-    if (kilometers.isNotEmpty && double.tryParse(kilometers) != null && dateTimeAdded != null) {
+    if (kilometers.isNotEmpty &&
+        double.tryParse(kilometers) != null &&
+        dateTimeAdded != null) {
       var result = await addJob(
         customerComplaint,
         workDetails,
@@ -208,8 +211,9 @@ class _AddJobDialogueState extends State<AddJobDialogue> {
             ),
             actions: [
               ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Okay"))
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Okay"),
+              )
             ],
           ),
         );

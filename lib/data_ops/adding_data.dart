@@ -107,3 +107,30 @@ Future<String> addJob(
   }
 }
 
+Future<String> addPartService(
+  String name,
+  String type,
+  double cost,
+  String supplier,
+  String jobID,
+  DateTime timeAdded,
+  String? details,
+) async {
+  String username = getSessionUsername();
+  String hash = getSessionHash();
+  try {
+    var result = await http.get(Uri.parse(
+        "http://localhost/add_partService.php?username=$username&hash=$hash&name=$name&type=$type&cost=$cost&supplier=$supplier&jobID=$jobID&addedDateTime=${timeAdded.toString()}&details=$details"));
+    if (result.statusCode == 200) {
+      if (result.body == "1") {
+        return "SUCCESS";
+      } else {
+        return "FAILED";
+      }
+    } else {
+      return result.statusCode.toString();
+    }
+  } on Exception catch (_) {
+    return "ERROR";
+  }
+}

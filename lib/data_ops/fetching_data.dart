@@ -178,6 +178,9 @@ Future<List<PartService>?> getPartServiceForJob(String jobID) async {
           partServiceData["Supplier"],
           partServiceData["JobID"],
           DateTime.parse(partServiceData["DateTimeAdded"]),
+          partServiceData["Details"] == "null"
+              ? null
+              : partServiceData["Details"],
         );
       }).toList();
     } else {
