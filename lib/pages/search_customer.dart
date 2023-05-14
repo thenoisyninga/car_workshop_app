@@ -139,8 +139,7 @@ class _SearchCustomerState extends State<SearchCustomer> {
                     ),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        List<Customer> searchResults =
-                            snapshot.data!;
+                        List<Customer> searchResults = snapshot.data!;
                         return ListView.builder(
                             itemCount: searchResults.length,
                             itemBuilder: ((context, index) {

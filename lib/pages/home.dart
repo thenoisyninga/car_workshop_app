@@ -1,4 +1,5 @@
 import 'package:car_workshop_app/constants.dart';
+import 'package:car_workshop_app/pages/recent_jobs.dart';
 import 'package:car_workshop_app/pages/search_customer.dart';
 import 'package:car_workshop_app/pages/search_vehicle.dart';
 import 'package:car_workshop_app/widgets/dialogues/add_customer.dart';
@@ -146,7 +147,12 @@ class _HomeState extends State<Home> {
 
             // Recent Jobs Button
             ElevatedButton(
-              onPressed: () async {},
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const RecentJobs(),
+                ),
+              ),
               child: Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.1,

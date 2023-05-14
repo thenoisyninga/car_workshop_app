@@ -190,3 +190,44 @@ Future<List<PartService>?> getPartServiceForJob(String jobID) async {
     return null;
   }
 }
+
+Future<List<Job>?> getRecentJobs(
+  String completionFilter,
+  String paymentFilter,
+  int limit,
+) async {
+  String username = getSessionUsername();
+  String hash = getSessionHash();
+
+  try {
+    var result = await http.get(Uri.parse(
+        "http://$webServerAddress/get_recent_jobs.php?username=$username&hash=$hash&limit=$limit&completionFilter=$completionFilter&paymentFilter=$paymentFilter"));
+    if (result.statusCode == 200) {
+      return result.body
+          .split("%SEPERATOR%")
+          .sublist(0, result.body.split("%SEPERATOR%").length - 1)
+          .map((e) {
+        Map jobData = json.decode(e);
+        return Job(
+          jobData["JobID"],
+          jobData["Customer Complaint"],
+          jobData["Work Details"],
+          double.parse(jobData["Cost"]),
+          double.parse(jobData["Price"]),
+          double.parse(jobData["Paid"]),
+          jobData["Vehicle Number"],
+          DateTime.parse(jobData["DateTimeAdded"]),
+          jobData["DateTimeFinished"].toString().replaceAll(" ", "") == "" ||
+                  jobData["DateTimeFinished"] == null
+              ? null
+              : DateTime.parse(jobData["DateTimeFinished"]),
+          double.parse(jobData["Kilometers"]),
+        );
+      }).toList();
+    } else {
+      return null;
+    }
+  } on Exception catch (_) {
+    return null;
+  }
+}
