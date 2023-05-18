@@ -3,6 +3,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:car_workshop_app/data_ops/fetching_data.dart';
 import 'package:car_workshop_app/models/customer.dart';
+import 'package:car_workshop_app/widgets/dialogues/update_job.dart';
 import 'package:flutter/material.dart';
 
 import '../data_ops/deleting_data.dart';
@@ -30,6 +31,26 @@ class _JobInfoState extends State<JobInfo> {
         elevation: 0,
         title: Text("Job: ${widget.jobID}"),
         centerTitle: true,
+        actions: [
+          FutureBuilder(
+              future: getJob(widget.jobID),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return IconButton(
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) =>
+                          UpdateJobDialogue(job: snapshot.data!),
+                    ).then((value) => setState(() {})),
+                    icon: const Icon(Icons.edit),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              })
+        ],
       ),
       body: FutureBuilder(
           future: getJob(widget.jobID),

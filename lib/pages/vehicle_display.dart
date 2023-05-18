@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:car_workshop_app/data_ops/updating_data.dart';
 import 'package:car_workshop_app/models/vehicle.dart';
 import 'package:car_workshop_app/widgets/dialogues/add_job.dart';
+import 'package:car_workshop_app/widgets/dialogues/update_vehicle.dart';
 import 'package:flutter/material.dart';
 
 import '../data_ops/fetching_data.dart';
@@ -29,6 +31,26 @@ class _VehicleInfoState extends State<VehicleInfo> {
         elevation: 0,
         title: const Text("Vehicle Info"),
         centerTitle: true,
+        actions: [
+          FutureBuilder(
+              future: getVehicle(widget.vehicleNumber),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return IconButton(
+                    onPressed: () => showDialog(
+                            context: context,
+                            builder: (context) => UpdateVehicleDialogue(
+                                vehicle: snapshot.data!))
+                        .then((value) => setState(() {})),
+                    icon: const Icon(Icons.edit),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              })
+        ],
       ),
       body: FutureBuilder(
           future: getVehicle(widget.vehicleNumber),

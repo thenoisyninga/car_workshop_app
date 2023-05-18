@@ -49,6 +49,26 @@ Future<bool> vehicleExistsCheck(String vehicleNumber) async {
   }
 }
 
+Future<bool> customerExistsCheck(String customerID) async {
+  String username = getSessionUsername();
+  String hash = getSessionHash();
+  try {
+    var result = await http.get(Uri.parse(
+        "http://localhost/customer_exists_check.php?username=$username&hash=$hash&customerID=$customerID"));
+    if (result.statusCode == 200) {
+      if (result.body == "0") {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  } on Exception catch (_) {
+    return true;
+  }
+}
+
 Future<String> addVehicle(
   String vehicleNumber,
   String make,
