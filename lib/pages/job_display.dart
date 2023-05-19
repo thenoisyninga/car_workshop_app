@@ -23,6 +23,10 @@ class JobInfo extends StatefulWidget {
 }
 
 class _JobInfoState extends State<JobInfo> {
+  void setStateCallback() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -295,6 +299,7 @@ class _JobInfoState extends State<JobInfo> {
                                     itemCount: partServicesList.length,
                                     itemBuilder: (context, index) {
                                       return PartServiceTile(
+                                        setStateCallback: setStateCallback,
                                         partService: partServicesList[index],
                                         deletePartServiceCallback:
                                             deletePartService,

@@ -39,8 +39,8 @@ class _VehicleInfoState extends State<VehicleInfo> {
                   return IconButton(
                     onPressed: () => showDialog(
                             context: context,
-                            builder: (context) => UpdateVehicleDialogue(
-                                vehicle: snapshot.data!))
+                            builder: (context) =>
+                                UpdateVehicleDialogue(vehicle: snapshot.data!))
                         .then((value) => setState(() {})),
                     icon: const Icon(Icons.edit),
                   );
@@ -179,7 +179,7 @@ class _VehicleInfoState extends State<VehicleInfo> {
                                                   itemBuilder:
                                                       (context, index) {
                                                     return JobTile(
-                                                      jobInfo: jobs[index],
+                                                      jobID: jobs[index].jobID,
                                                     );
                                                   });
                                             } else {

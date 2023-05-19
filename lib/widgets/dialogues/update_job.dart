@@ -194,10 +194,10 @@ class _UpdateJobDialogueState extends State<UpdateJobDialogue> {
                     height: 10,
                     child: TextField(
                       style: TextStyle(color: Colors.grey[200]),
-                      controller: costController,
+                      controller: priceController,
                       decoration: InputDecoration(
-                        label: const Text("Cost"),
-                        errorText: costError,
+                        label: const Text("Price"),
+                        errorText: paidError,
                       ),
                     ),
                   ),

@@ -1,21 +1,25 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:car_workshop_app/data_ops/adding_data.dart';
+import 'package:car_workshop_app/data_ops/updating_data.dart';
 import 'package:flutter/material.dart';
 
-class AddPartServiceDialogue extends StatefulWidget {
-  const AddPartServiceDialogue({
+import '../../models/part_service.dart';
+
+class UpdatePartServiceDialogue extends StatefulWidget {
+  const UpdatePartServiceDialogue({
     super.key,
-    required this.jobID,
+    required this.partService,
   });
 
-  final String jobID;
+  final PartService partService;
 
   @override
-  State<AddPartServiceDialogue> createState() => _AddPartServiceDialogueState();
+  State<UpdatePartServiceDialogue> createState() =>
+      _UpdatePartServiceDialogueState();
 }
 
-class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
+class _UpdatePartServiceDialogueState extends State<UpdatePartServiceDialogue> {
   TextEditingController nameController = TextEditingController();
   TextEditingController typeController = TextEditingController();
   TextEditingController costController = TextEditingController();
@@ -26,17 +30,26 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
   String? nameError;
   String? costError;
   String? supplierError;
-  String type = "Part";
 
-  DateTime dateTimeAdded = DateTime.now();
+  DateTime? dateTimeAdded;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.text = widget.partService.name;
+    typeController.text = widget.partService.type;
+    costController.text = widget.partService.cost.toString();
+    supplierController.text = widget.partService.supplier ?? "";
+    dateTimeAdded = widget.partService.timeAdded;
+    detailsController.text = widget.partService.details ?? "";
+  }
 
   @override
   Widget build(BuildContext context) {
     timeAddedController.text = dateTimeAdded.toString().substring(0, 10);
-    typeController.text = type;
     return AlertDialog(
       title: const Text(
-        "Add PartService",
+        "Edit PartService",
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.white,
@@ -45,16 +58,16 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
         ),
       ),
       content: SizedBox(
-        height: 400,
+        height: 450,
         width: 600,
         child: Column(
           children: [
             SizedBox(
-              height: 300,
+              height: 350,
               child: GridView.count(
                 crossAxisSpacing: 5,
                 crossAxisCount: 2,
-                childAspectRatio: (600 / 2) / 100,
+                childAspectRatio: (800 / 2) / 100,
                 children: [
                   SizedBox(
                     height: 10,
@@ -96,7 +109,7 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        type = "Part";
+                                        typeController.text = "Part";
                                       });
                                       Navigator.of(context).pop();
                                     },
@@ -111,7 +124,7 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
                                     onPressed: () {
                                       setState(() {
                                         supplierController.text = "";
-                                        type = "Service";
+                                        typeController.text = "Service";
                                       });
                                       Navigator.of(context).pop();
                                     },
@@ -124,7 +137,8 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
                                         child: const Text("External Service")),
                                     onPressed: () {
                                       setState(() {
-                                        type = "External Service";
+                                        typeController.text =
+                                            "External Service";
                                       });
                                       Navigator.of(context).pop();
                                     },
@@ -151,7 +165,8 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
                   SizedBox(
                     height: 10,
                     child: TextField(
-                      enabled: type == "Part" || type == "External Service",
+                      enabled: typeController.text == "Part" ||
+                          typeController.text == "External Service",
                       style: TextStyle(color: Colors.grey[200]),
                       controller: supplierController,
                       decoration: InputDecoration(
@@ -166,7 +181,7 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
                       onTap: () async {
                         DateTime? selectedDate = await showDatePicker(
                           context: context,
-                          initialDate: dateTimeAdded,
+                          initialDate: dateTimeAdded!,
                           firstDate: DateTime.now()
                               .subtract(const Duration(days: 365)),
                           lastDate:
@@ -239,19 +254,41 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: addNewPartService,
-              child: Container(
-                alignment: Alignment.center,
-                height: 100,
-                width: 600,
-                child: const Text(
-                  "Add New PartService",
-                  style: TextStyle(
-                    fontSize: 20,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: updatePartService,
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 100,
+                    width: 295,
+                    child: const Text(
+                      "Update PartService",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 100,
+                    width: 95,
+                    child: const Text(
+                      "Cancel",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -259,21 +296,21 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
     );
   }
 
-  Future<void> addNewPartService() async {
+  Future<void> updatePartService() async {
     String name = nameController.text;
     String type = typeController.text;
     String cost = costController.text;
     String supplier = supplierController.text;
     String details = detailsController.text;
-    String jobID = widget.jobID;
 
     showDialog(
-        context: context,
-        builder: (context) => const AlertDialog(
-              content: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ));
+      context: context,
+      builder: (context) => const AlertDialog(
+        content: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
 
     if (name.isEmpty) {
       nameError = "Cannot be empty";
@@ -294,20 +331,23 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
     }
 
     if (costError == null && nameError == null && supplierError == null) {
-      String result = await addPartService(
+      PartService updatedPartService = PartService(
         name,
         type,
         double.parse(cost),
         supplier,
-        jobID,
-        dateTimeAdded,
-        details.isNotEmpty ? details : null,
+        widget.partService.jobID,
+        dateTimeAdded!,
+        details,
       );
+
+      var result = await updatePartServiceInfo(
+          widget.partService.name, updatedPartService);
       if (result == "SUCCESS") {
         Navigator.pop(context);
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("$type added"),
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("PartService Updated"),
         ));
       } else if (result == "ERROR" || result == "FAILED") {
         Navigator.pop(context);

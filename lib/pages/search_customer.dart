@@ -141,12 +141,13 @@ class _SearchCustomerState extends State<SearchCustomer> {
                       if (snapshot.hasData) {
                         List<Customer> searchResults = snapshot.data!;
                         return ListView.builder(
-                            itemCount: searchResults.length,
-                            itemBuilder: ((context, index) {
-                              return CustomerTile(
-                                customer: searchResults[index],
-                              );
-                            }));
+                          itemCount: searchResults.length,
+                          itemBuilder: ((context, index) {
+                            return CustomerTile(
+                              customer: searchResults[index],
+                            );
+                          }),
+                        );
                       } else {
                         return const Center(
                           child: CircularProgressIndicator(),

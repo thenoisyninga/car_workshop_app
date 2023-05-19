@@ -190,7 +190,7 @@ class _RecentJobsState extends State<RecentJobs> {
                           itemCount: searchResults.length,
                           itemBuilder: ((context, index) {
                             return JobTile(
-                              jobInfo: searchResults[index],
+                              jobID: searchResults[index].jobID,
                             );
                           }));
                     } else {

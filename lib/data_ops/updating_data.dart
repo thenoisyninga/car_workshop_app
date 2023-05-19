@@ -4,6 +4,7 @@ import 'package:car_workshop_app/data_ops/user_management.dart';
 import '../constants.dart';
 import '../models/customer.dart';
 import '../models/job.dart';
+import '../models/part_service.dart';
 import '../models/vehicle.dart';
 
 Future<String> updateCustomer(
@@ -86,6 +87,43 @@ Future<String> updateJobInfo(
         "http://localhost/update_job_info.php?username=$username&hash=$hash&jobID=$jobID&customerComplaint=$customerComplaint&workDetails=$workDetails&price=$price&paid=$paid&addedDateTime=$dateTimeAdded&finishedDateTime=$dateTimeFinished&kilometers=$kilometers"));
 
     print(result.body);
+    if (result.statusCode == 200) {
+      if (result.body == "1") {
+        return "SUCCESS";
+      } else {
+        return "FAILED";
+      }
+    } else {
+      return result.statusCode.toString();
+    }
+  } on Exception catch (_) {
+    return "ERROR";
+  }
+}
+
+Future<String> updatePartServiceInfo(
+  String oldName,
+  PartService partService,
+) async {
+  String username = getSessionUsername();
+  String hash = getSessionHash();
+
+  String name = partService.name;
+  String type = partService.type;
+  String cost = partService.cost.toString();
+  String supplier = partService.supplier ?? "";
+  String jobID = partService.jobID;
+  String timeAdded = partService.timeAdded.toString();
+  String details = partService.details ?? "";
+
+
+
+  try {
+    var result = await http.get(Uri.parse(
+        "http://localhost/update_partService.php?username=$username&hash=$hash&oldName=$oldName&name=$name&type=$type&cost=$cost&supplier=$supplier&jobID=$jobID&addedDateTime=$timeAdded&details=$details"));
+
+    print("'${result.body}'");
+
     if (result.statusCode == 200) {
       if (result.body == "1") {
         return "SUCCESS";
