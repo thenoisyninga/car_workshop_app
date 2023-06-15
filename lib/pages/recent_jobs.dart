@@ -1,7 +1,5 @@
 import 'package:car_workshop_app/data_ops/fetching_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../models/job.dart';
 import '../widgets/tiles/job_tile.dart';

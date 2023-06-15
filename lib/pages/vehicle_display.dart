@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:car_workshop_app/data_ops/updating_data.dart';
 import 'package:car_workshop_app/models/vehicle.dart';
 import 'package:car_workshop_app/widgets/dialogues/add_job.dart';
 import 'package:car_workshop_app/widgets/dialogues/update_vehicle.dart';

@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    MaterialColor? primaryColor = Colors.blue;
+    MaterialColor? primaryColor = Colors.purple;
     Color? scaffoldBackgroundColor = Colors.grey[900];
     return MaterialApp(
       title: workshopName,

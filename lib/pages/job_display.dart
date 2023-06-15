@@ -11,6 +11,7 @@ import '../models/job.dart';
 import '../models/part_service.dart';
 import '../models/vehicle.dart';
 import '../widgets/dialogues/add_part_service.dart';
+import '../widgets/label_headers/partService_label_header.dart';
 import '../widgets/tiles/part_service_tile.dart';
 
 class JobInfo extends StatefulWidget {
@@ -33,7 +34,7 @@ class _JobInfoState extends State<JobInfo> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text("Job: ${widget.jobID}"),
+        title: Text("Job Card : ${widget.jobID}"),
         centerTitle: true,
         actions: [
           FutureBuilder(
@@ -220,7 +221,9 @@ class _JobInfoState extends State<JobInfo> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                SizedBox(
+                                Container(
+                                  padding: const EdgeInsets.all(16),
+                                  alignment: Alignment.topLeft,
                                   height:
                                       MediaQuery.of(context).size.height * 0.18,
                                   child: SingleChildScrollView(
@@ -257,17 +260,27 @@ class _JobInfoState extends State<JobInfo> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                SizedBox(
+                                Container(
+                                  padding: const EdgeInsets.all(16),
+                                  alignment: Alignment.topLeft,
                                   height:
                                       MediaQuery.of(context).size.height * 0.18,
-                                  child: SingleChildScrollView(
-                                    child: Text(
-                                      job.workDetails ?? "",
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
+                                  child: job.workDetails != null
+                                      ? ListView.builder(
+                                          itemCount: job.workDetails!
+                                              .split("\n")
+                                              .length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 2.0),
+                                              child: Text(
+                                                  "${index + 1}. ${job.workDetails!.split("\n")[index]}"),
+                                            );
+                                          },
+                                        )
+                                      : const Text("NULL"),
                                 )
                               ],
                             ),
@@ -279,38 +292,62 @@ class _JobInfoState extends State<JobInfo> {
                       height: 10,
                     ),
                     const Text(
-                      "Parts/Services Arranged",
+                      "Parts / Labour & Sublet",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: FutureBuilder(
-                            future: getPartServiceForJob(widget.jobID),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                List<PartService> partServicesList =
-                                    snapshot.data!;
-                                return ListView.builder(
-                                    itemCount: partServicesList.length,
-                                    itemBuilder: (context, index) {
-                                      return PartServiceTile(
-                                        setStateCallback: setStateCallback,
-                                        partService: partServicesList[index],
-                                        deletePartServiceCallback:
-                                            deletePartService,
-                                      );
-                                    });
-                              } else {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            }),
+                    Container(
+                      color: Colors.grey[800],
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          child: FutureBuilder(
+                              future: getPartServiceForJob(widget.jobID),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  List<PartService> partServicesList =
+                                      snapshot.data!;
+                                  return SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3,
+                                    child: Column(
+                                      children: [
+                                        const PartServiceLabelHeader(),
+                                        const Divider(),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.3 -
+                                              80,
+                                          child: ListView.builder(
+                                              itemCount:
+                                                  partServicesList.length,
+                                              itemBuilder: (context, index) {
+                                                return PartServiceTile(
+                                                  setStateCallback:
+                                                      setStateCallback,
+                                                  partService:
+                                                      partServicesList[index],
+                                                  deletePartServiceCallback:
+                                                      deletePartService,
+                                                  index: index + 1,
+                                                );
+                                              }),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              }),
+                        ),
                       ),
                     ),
                     Padding(

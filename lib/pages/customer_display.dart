@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:car_workshop_app/widgets/dialogues/add_vehicle.dart';
 import 'package:car_workshop_app/widgets/dialogues/update_customer.dart';
+import 'package:car_workshop_app/widgets/label_headers/vehicle_label_header.dart';
 import 'package:car_workshop_app/widgets/tiles/vehicle_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -197,10 +198,11 @@ class _CustomerInfoState extends State<CustomerInfo> {
                               ),
                             ),
                           ),
+                          const VehicleLabelHeader(),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.35,
+                              height: MediaQuery.of(context).size.height * 0.33,
                               child: FutureBuilder(
                                   future:
                                       getVehiclesForCustomer(widget.customerID),

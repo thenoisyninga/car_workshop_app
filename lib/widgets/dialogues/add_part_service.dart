@@ -22,13 +22,24 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
   TextEditingController supplierController = TextEditingController();
   TextEditingController timeAddedController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController statusController = TextEditingController();
 
   String? nameError;
   String? costError;
   String? supplierError;
+  String? quantityError;
   String type = "Part";
 
   DateTime dateTimeAdded = DateTime.now();
+
+  @override
+  void initState() {
+    
+    quantityController.text = "1";
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +65,7 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
               child: GridView.count(
                 crossAxisSpacing: 5,
                 crossAxisCount: 2,
-                childAspectRatio: (600 / 2) / 100,
+                childAspectRatio: (800 / 2) / 100,
                 children: [
                   SizedBox(
                     height: 10,
@@ -236,6 +247,28 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
                       ).then((value) => setState(() {})),
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                    child: TextField(
+                      style: TextStyle(color: Colors.grey[200]),
+                      controller: quantityController,
+                      decoration: InputDecoration(
+                        label: const Text("Quantity"),
+                        errorText: quantityError,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                    child: TextField(
+                      style: TextStyle(color: Colors.grey[200]),
+                      controller: statusController,
+                      decoration: InputDecoration(
+                        label: const Text("Status"),
+                        errorText: nameError,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -266,6 +299,8 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
     String supplier = supplierController.text;
     String details = detailsController.text;
     String jobID = widget.jobID;
+    String quantity = quantityController.text;
+    String status = statusController.text;
 
     showDialog(
         context: context,
@@ -292,8 +327,18 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
     } else {
       supplierError = null;
     }
+    if (quantity.isEmpty) {
+      quantityError = "Cannot be empty";
+    } else if (int.tryParse(quantity) == null) {
+      quantityError = "Invalid quantity";
+    } else {
+      quantityError = null;
+    }
 
-    if (costError == null && nameError == null && supplierError == null) {
+    if (costError == null &&
+        nameError == null &&
+        supplierError == null &&
+        quantityError == null) {
       String result = await addPartService(
         name,
         type,
@@ -302,6 +347,8 @@ class _AddPartServiceDialogueState extends State<AddPartServiceDialogue> {
         jobID,
         dateTimeAdded,
         details.isNotEmpty ? details : null,
+        int.parse(quantity),
+        status,
       );
       if (result == "SUCCESS") {
         Navigator.pop(context);

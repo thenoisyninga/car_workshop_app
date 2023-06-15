@@ -86,7 +86,6 @@ Future<String> updateJobInfo(
     var result = await http.get(Uri.parse(
         "http://localhost/update_job_info.php?username=$username&hash=$hash&jobID=$jobID&customerComplaint=$customerComplaint&workDetails=$workDetails&price=$price&paid=$paid&addedDateTime=$dateTimeAdded&finishedDateTime=$dateTimeFinished&kilometers=$kilometers"));
 
-    print(result.body);
     if (result.statusCode == 200) {
       if (result.body == "1") {
         return "SUCCESS";
@@ -115,14 +114,14 @@ Future<String> updatePartServiceInfo(
   String jobID = partService.jobID;
   String timeAdded = partService.timeAdded.toString();
   String details = partService.details ?? "";
-
+  String quantity = partService.quantity.toString();
+  String status = partService.status ?? "";
 
 
   try {
     var result = await http.get(Uri.parse(
-        "http://localhost/update_partService.php?username=$username&hash=$hash&oldName=$oldName&name=$name&type=$type&cost=$cost&supplier=$supplier&jobID=$jobID&addedDateTime=$timeAdded&details=$details"));
+        "http://localhost/update_partService.php?username=$username&hash=$hash&oldName=$oldName&name=$name&type=$type&cost=$cost&supplier=$supplier&jobID=$jobID&addedDateTime=$timeAdded&details=$details&quantity=$quantity&status=$status"));
 
-    print("'${result.body}'");
 
     if (result.statusCode == 200) {
       if (result.body == "1") {

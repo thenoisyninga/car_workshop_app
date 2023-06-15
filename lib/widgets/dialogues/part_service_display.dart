@@ -1,7 +1,5 @@
 import 'package:car_workshop_app/models/part_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class PartServiceDisplayDialogue extends StatefulWidget {
   const PartServiceDisplayDialogue({super.key, required this.partService});

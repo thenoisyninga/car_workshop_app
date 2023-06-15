@@ -1,3 +1,4 @@
+import 'package:car_workshop_app/widgets/label_headers/vehicle_label_header.dart';
 import 'package:flutter/material.dart';
 
 import '../data_ops/searching_data.dart';
@@ -109,11 +110,13 @@ class _SearchVehicleState extends State<SearchVehicle> {
                   )),
             ),
 
+            const VehicleLabelHeader(),
+
             // Search Results
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.65,
+                height: MediaQuery.of(context).size.height * 0.6,
                 child: FutureBuilder(
                     future: searchVehicle(
                       vehicleNumberController.text,

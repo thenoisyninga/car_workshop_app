@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
                       ? 400
                       : MediaQuery.of(context).size.width * 0.3,
                   child: const Text(
-                    "Add Customer",
+                    "New Customer",
                     style: TextStyle(fontSize: 20),
                   )),
             ),

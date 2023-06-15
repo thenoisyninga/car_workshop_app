@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:car_workshop_app/data_ops/adding_data.dart';
 import 'package:car_workshop_app/data_ops/updating_data.dart';
 import 'package:flutter/material.dart';
 
@@ -26,10 +25,13 @@ class _UpdatePartServiceDialogueState extends State<UpdatePartServiceDialogue> {
   TextEditingController supplierController = TextEditingController();
   TextEditingController timeAddedController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController statusController = TextEditingController();
 
   String? nameError;
   String? costError;
   String? supplierError;
+  String? quantityError;
 
   DateTime? dateTimeAdded;
 
@@ -42,6 +44,8 @@ class _UpdatePartServiceDialogueState extends State<UpdatePartServiceDialogue> {
     supplierController.text = widget.partService.supplier ?? "";
     dateTimeAdded = widget.partService.timeAdded;
     detailsController.text = widget.partService.details ?? "";
+    quantityController.text = widget.partService.quantity.toString();
+    statusController.text = widget.partService.status ?? "";
   }
 
   @override
@@ -251,6 +255,28 @@ class _UpdatePartServiceDialogueState extends State<UpdatePartServiceDialogue> {
                       ).then((value) => setState(() {})),
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                    child: TextField(
+                      style: TextStyle(color: Colors.grey[200]),
+                      controller: quantityController,
+                      decoration: InputDecoration(
+                        label: const Text("Quantity"),
+                        errorText: quantityError,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                    child: TextField(
+                      style: TextStyle(color: Colors.grey[200]),
+                      controller: statusController,
+                      decoration: InputDecoration(
+                        label: const Text("Status"),
+                        errorText: nameError,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -302,6 +328,8 @@ class _UpdatePartServiceDialogueState extends State<UpdatePartServiceDialogue> {
     String cost = costController.text;
     String supplier = supplierController.text;
     String details = detailsController.text;
+    String quantity = quantityController.text;
+    String status = statusController.text;
 
     showDialog(
       context: context,
@@ -329,8 +357,18 @@ class _UpdatePartServiceDialogueState extends State<UpdatePartServiceDialogue> {
     } else {
       supplierError = null;
     }
+    if (quantity.isEmpty) {
+      quantityError = "Cannot be empty";
+    } else if (int.tryParse(quantity) == null) {
+      quantityError = "Invalid quantity";
+    } else {
+      quantityError = null;
+    }
 
-    if (costError == null && nameError == null && supplierError == null) {
+    if (costError == null &&
+        nameError == null &&
+        supplierError == null &&
+        quantityError == null) {
       PartService updatedPartService = PartService(
         name,
         type,
@@ -339,6 +377,8 @@ class _UpdatePartServiceDialogueState extends State<UpdatePartServiceDialogue> {
         widget.partService.jobID,
         dateTimeAdded!,
         details,
+        int.parse(quantity),
+        status,
       );
 
       var result = await updatePartServiceInfo(

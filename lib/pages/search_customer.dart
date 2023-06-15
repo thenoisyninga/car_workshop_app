@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data_ops/searching_data.dart';
 import '../models/customer.dart';
+import '../widgets/label_headers/customer_label_header.dart';
 import '../widgets/tiles/customer_tile.dart';
 
 class SearchCustomer extends StatefulWidget {
@@ -123,11 +124,13 @@ class _SearchCustomerState extends State<SearchCustomer> {
                   )),
             ),
 
+            const CustomerLabelHeader(),
+
             // Search Results
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.65,
+                height: MediaQuery.of(context).size.height * 0.63,
                 child: FutureBuilder(
                     future: searchCustomer(
                       customerIDController.text,

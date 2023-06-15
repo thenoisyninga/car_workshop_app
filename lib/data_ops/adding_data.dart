@@ -135,12 +135,14 @@ Future<String> addPartService(
   String jobID,
   DateTime timeAdded,
   String? details,
+  int quantity,
+  String status,
 ) async {
   String username = getSessionUsername();
   String hash = getSessionHash();
   try {
     var result = await http.get(Uri.parse(
-        "http://localhost/add_partService.php?username=$username&hash=$hash&name=$name&type=$type&cost=$cost&supplier=$supplier&jobID=$jobID&addedDateTime=${timeAdded.toString()}&details=$details"));
+        "http://localhost/add_partService.php?username=$username&hash=$hash&name=$name&type=$type&cost=$cost&supplier=$supplier&jobID=$jobID&addedDateTime=${timeAdded.toString()}&details=$details&quantity=$quantity&status=$status"));
     if (result.statusCode == 200) {
       if (result.body == "1") {
         return "SUCCESS";

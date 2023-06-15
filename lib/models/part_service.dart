@@ -6,6 +6,8 @@ class PartService {
   String jobID;
   DateTime timeAdded;
   String? details;
+  int quantity;
+  String? status;
 
   PartService(
     this.name,
@@ -15,5 +17,7 @@ class PartService {
     this.jobID,
     this.timeAdded,
     this.details,
+    this.quantity,
+    this.status,
   );
 }
