@@ -1,3 +1,3 @@
 # car_workshop_app
 
-An app that manages a car workshop's data. For example customers, cars, jobs, and the financial expenses for parts and services.
+A flutter program that stores and manages data for auto shops, including customers, cars, jobs, and the financial expenses for parts and services.
