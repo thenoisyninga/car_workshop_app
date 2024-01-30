@@ -1,6 +1,6 @@
 # car_workshop_app
 
-A a shelved project for a vehicle workshop that stores and manages data including customers, cars, jobs, and the financial expenses for parts and services.
+A shelved project for a vehicle workshop that stores and manages data including customers, cars, jobs, and the financial expenses for parts and services.
 
 <p align="center">
 <img src="https://github.com/thenoisyninga/car_workshop_app/assets/88588593/b0201968-91c6-460b-a4b4-4589d64aff2d" alt="image" width="70%" height="auto">
